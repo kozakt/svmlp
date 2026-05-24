@@ -1,0 +1,86 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: CI Build
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  workflow_dispatch:
+    
+env:
+  # Path to the solution file relative to the root of the project.
+  SOLUTION_FILE_PATH: prj/vs2026/SVMLP.slnx
+  
+  # Configuration type to build.
+  # You can convert this to a build matrix if you need coverage of multiple configuration types.
+  # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
+  BUILD_CONFIGURATION: Release
+  BUILD_PLATFORM_X64: x64
+  BUILD_PLATFORM_X86: Win32
+
+permissions:
+  contents: read
+
+jobs:
+  windows-x64-build:
+    runs-on: windows-2025-vs2026
+
+    steps:
+    - name: Checkout repositories
+      uses: actions/checkout@v6
+      with:
+        submodules: 'recursive'
+        token: ${{secrets.GITHUB_TOKEN}}
+
+    - name: Generate project
+      working-directory: ./prj
+      run: ../tools/premake/premake5.exe vs2026
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v3
+
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      # Add additional options to the MSBuild command line here (like platform or verbosity level).
+      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:Platform=${{env.BUILD_PLATFORM_X64}} ${{env.SOLUTION_FILE_PATH}}
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v7
+      with:
+        name: SVMLP-x64
+        path: |
+          bin/*.exe
+  
+  windows-x86-build:
+    runs-on: windows-2025-vs2026
+
+    steps:
+    - name: Checkout repositories
+      uses: actions/checkout@v6
+      with:
+        submodules: 'recursive'
+        token: ${{secrets.GITHUB_TOKEN}}
+
+    - name: Generate project
+      working-directory: ./prj
+      run: ../tools/premake/premake5.exe vs2026
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v3
+
+    - name: Build
+      working-directory: ${{env.GITHUB_WORKSPACE}}
+      # Add additional options to the MSBuild command line here (like platform or verbosity level).
+      # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:Platform=${{env.BUILD_PLATFORM_X86}} ${{env.SOLUTION_FILE_PATH}}
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v7
+      with:
+        name: SVMLP-x86
+        path: |
+          bin/*.exe          

@@ -1,0 +1,6 @@
+/prj/vs2026/
+/bin/**/*.*
+/res/**
+!/res/*.rc
+!/res/*.ico
+
