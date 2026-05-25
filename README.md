@@ -30,7 +30,9 @@ Step by step instruction:
 
 Some particularly old recovery CD has some extra model lock protection.
 I know only 2 types, but there could be more.
-Type 1: Extra lock in `INSTALL.EXE`, located in the `SONY` subfolder. If you have this file, get a HEX editor like `HxD`, open `INSTALL4.EXE` in that editor, and find the string `PCG-`. There should be only one occurrence of this string. You should see something like `PCG-C1VN*(I*`. Enter the BIOS on your Vaio and note the `Machine Name`, then replace the model letters in the EXE to match what you see in the BIOS. For example, if in the BIOS you see `PCG-C1PVK(UC)`, change `PCG-C1VN*(I*` to `PCG-C1VP*(U*`. Replacing non-matching characters with `*` should also work, as `*` means any character. VERY IMPORTANT: DO NOT ADD OR REMOVE characters, just replace them, so the size of the modified EXE must be exactly the same. After this, replace `INSTALL4.EXE` in your ISO (in all discs) and you should be good to go.
+
+Type 1: Extra lock in `INSTALL4.EXE`, located in the `SONY` subfolder. If you have this file, get a HEX editor like `HxD`, open `INSTALL4.EXE` in that editor, and find the string `PCG-`. There should be only one occurrence of this string. You should see something like `PCG-C1VN*(I*`. Enter the BIOS on your Vaio and note the `Machine Name`, then replace the model letters in the EXE to match what you see in the BIOS. For example, if in the BIOS you see `PCG-C1PVK(UC)`, change `PCG-C1VN*(I*` to `PCG-C1VP*(U*`. Replacing non-matching characters with `*` should also work, as `*` means any character. VERY IMPORTANT: DO NOT ADD OR REMOVE characters, just replace them, so the size of the modified EXE must be exactly the same. After this, replace `INSTALL4.EXE` in your ISO (in all discs) and you should be good to go.
+
 Type 2: Extra lock using `bioslock.exe`. Open you ISO file with some ISO editor tool like WinImage, extract BOOT floppy image from it. Then open that BOOT image. There you should see folders for different languages (ENG, GER, etc). Inside these folders find `RECOVER.BAT`. Open `RECOVER.BAT` in any text editor, then find `bioslock` command. It will look something like this:
         
         ```
@@ -48,7 +50,7 @@ Check value for `errorlevel 0` (`goto Welcome` in this case) and add string `got
         if errorlevel 1 goto BAD_COMP
         if errorlevel 0 goto Welcome
         ```
-Save the file, replace it in BOOT floppy image, replace BOOT original BOOT image with modified one and save ISO.
+Save the file, replace it in BOOT floppy image, replace original BOOT image with modified one and save ISO.
 
 ## Disclaimer
 
