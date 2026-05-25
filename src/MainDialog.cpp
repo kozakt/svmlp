@@ -394,8 +394,8 @@ void MainDialog::RefreshImageInformation()
         return;
     }
 
-    std::wstring stStr = std::format(L"Image versisdf: 6546 sdf");
-    SetWindowText(m_shatusLabel, stStr.c_str());
+    std::wstring readyStr = std::format(L"Ready");
+    SetWindowText(m_shatusLabel, readyStr.c_str());
 
     EnableWindow(m_removeLocksButton, TRUE);
     EnableWindow(m_decompressButton, TRUE);

@@ -182,11 +182,32 @@ namespace blitter
         }
         else if (info.version == 0x4E4A4354)
         {
-            // TODO
+            const uint32_t offset = 0x0C;
+
+            // Make sure strings are null terminated
+            outBuffer[offset + 0x1F] = 0u;
+            outBuffer[offset + 0x20 + 0x1F] = 0u;
+
+            std::string manufacturer(reinterpret_cast<const char*>(&outBuffer[offset]));
+            std::string model(reinterpret_cast<const char*>(&outBuffer[offset + 0x20]));
+
+            if (!manufacturer.empty() || !model.empty())
+            {
+                std::size_t size = std::mbstowcs(nullptr, manufacturer.c_str(), 0u);
+                std::wstring wmanufacturer(size, L'\0');
+                std::mbstowcs(&wmanufacturer[0], manufacturer.c_str(), size);
+                
+                size = std::mbstowcs(nullptr, model.c_str(), 0u);
+                std::wstring wmodel(size, L'\0');
+                std::mbstowcs(&wmodel[0], model.c_str(), size);
+
+                info.modelLocks.emplace_back(std::format(L"<{}>:<{}>", wmanufacturer, wmodel));
+            }
         }
         else
         {
             // Unsupported lock version
+            info.modelLocks.emplace_back(L"Unsupported lock version");
         }
 
         return info;
@@ -590,7 +611,9 @@ namespace blitter
         }
         else if (version == 0x4E4A4354)
         {
-            // TODO
+            const uint32_t offset = 0x0C;
+            const uint32_t size = 0x40;
+            memset(io_buffer.data() + offset, 0x00, size);
         }
         else
         {
