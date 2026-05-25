@@ -18,7 +18,7 @@ Step by step instruction:
 6. Press `Open` button and select main file: `SONY.IMG` or `NTFS.IMG`
 7. Now you should see some image information, like:
     1. `Date time` with date and time when image was created. Some very old images doesn't have time so it might show 01-01-1970 and that's ok.
-    2. `Image version` shows the restore image version. I am aware of only three versions: `5F5B5465`, `606C6576`, and `4E4A4354`. The tool currently supports only the first two. If you see version `4E4A4354` or any other version not listed here, DO NOT continue further—please create an issue with a download link for that recovery CD and I will try to take a look.
+    2. `Image version` shows the restore image version. I am aware of only three versions: `5F5B5465`, `606C6576`, and `4E4A4354`. The tool currently supports all three. If you see any other version not listed here, DO NOT continue further—please create an issue with a download link for that recovery CD and I will try to take a look.
     3. `Model locks` this will show on what model the image is locked, if you see empty list, this means that image is not model locked (or it's some kind of unknown lock version) and you don't need to continue.
 8. Press `Select` button and chose folder you created at step #4
 9. Press `Remove locks` button. If recovery has more that `1 discs`, once disc one patched you will be asked to select next image part, choose `SONY.I01` when you asked for disc `1`, `SONY.I02` for disc `2` and so on. Wait until you see operation finished message. 
